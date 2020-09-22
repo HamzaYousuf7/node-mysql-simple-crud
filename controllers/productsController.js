@@ -16,7 +16,29 @@ exports.getAllProducts = (req, res, next) => {
     });
 };
 
-exports.getSingleProducts = (req, res, next) => {};
+exports.getSingleProducts = (req, res, next) => {
+  const product_id = req.params.product_id;
+  Product.getSingleProduct(product_id)
+    .then((result) => {
+     //what are we getting console.log("result =>", result[0]);
+      const singleProduct = result[0]; // if found
+      if (singleProduct.length > 0) {
+        const temp = result[0][0];
+        res.status(200).json({
+          message: "successfully fetch a single product",
+          product: temp,
+        });
+      } else {
+        res.status(404).json({
+          message: "product not found",
+        });
+      }
+    })
+    .catch((error) => {
+      console.log("error when try to get all products", error);
+      throw new HttpError("colud not fetch all product,Please try again", 500);
+    });
+};
 
 exports.addProduct = (req, res, next) => {
   //ectracting data from body

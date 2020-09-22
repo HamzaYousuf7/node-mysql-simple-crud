@@ -24,4 +24,8 @@ module.exports = class Product {
   static getAllProducts() {
     return DB.execute("SELECT * FROM products");
   }
+
+  static getSingleProduct(product_id) {
+    return DB.execute(`SELECT * FROM products WHERE product_id=${product_id}`);
+  }
 };
