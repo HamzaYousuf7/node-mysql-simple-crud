@@ -28,4 +28,8 @@ module.exports = class Product {
   static getSingleProduct(product_id) {
     return DB.execute(`SELECT * FROM products WHERE product_id=${product_id}`);
   }
+
+  static deleteProduct(product_id) {
+    return DB.execute(`DELETE FROM products WHERE product_id=${product_id}`);
+  }
 };

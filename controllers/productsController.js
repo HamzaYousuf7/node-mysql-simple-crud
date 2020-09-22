@@ -20,7 +20,7 @@ exports.getSingleProducts = (req, res, next) => {
   const product_id = req.params.product_id;
   Product.getSingleProduct(product_id)
     .then((result) => {
-     //what are we getting console.log("result =>", result[0]);
+      //what are we getting console.log("result =>", result[0]);
       const singleProduct = result[0]; // if found
       if (singleProduct.length > 0) {
         const temp = result[0][0];
@@ -62,4 +62,24 @@ exports.addProduct = (req, res, next) => {
 };
 
 exports.updateProduct = (req, res, next) => {};
-exports.deleteProduct = (req, res, next) => {};
+
+exports.deleteProduct = (req, res, next) => {
+  const product_id = req.params.product_id;
+
+  Product.deleteProduct(product_id)
+    .then((result) => {
+      //DEBUG PERPOSE    console.log("=>",result[0].affectedRows);
+      const isSuccess = result[0].affectedRows;
+      if (isSuccess > 0) {
+        res.status(200).json({
+          message: "successfully deleted product ",
+        });
+      } else {
+        res.status(404).json({ message: "product not found" });
+      }
+    })
+    .catch((error) => {
+      console.log("error when try to delete  product", error);
+      throw new HttpError("colud not delete  product, Please try again", 500);
+    });
+};
