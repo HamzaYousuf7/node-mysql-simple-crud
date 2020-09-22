@@ -20,4 +20,8 @@ module.exports = class Product {
       );
     }
   }
+
+  static getAllProducts() {
+    return DB.execute("SELECT * FROM products");
+  }
 };
