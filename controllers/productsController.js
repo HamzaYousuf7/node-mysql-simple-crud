@@ -61,7 +61,27 @@ exports.addProduct = (req, res, next) => {
     });
 };
 
-exports.updateProduct = (req, res, next) => {};
+exports.updateProduct = (req, res, next) => {
+  const product_id = req.params.product_id;
+  const { name, price } = req.body;
+  console.log("===>", product_id, name, price);
+  Product.updateProduct(product_id, name, price)
+    .then((result) => {
+      console.log(result);
+      const isSuccess = result[0].affectedRows;
+      if (isSuccess > 0) {
+        res.status(200).json({
+          message: "successfully update product ",
+        });
+      } else {
+        res.status(404).json({ message: "product not found" });
+      }
+    })
+    .catch((error) => {
+      console.log("error when try to update  product", error);
+      throw new HttpError("colud not update  product, Please try again", 500);
+    });
+};
 
 exports.deleteProduct = (req, res, next) => {
   const product_id = req.params.product_id;

@@ -29,6 +29,13 @@ module.exports = class Product {
     return DB.execute(`SELECT * FROM products WHERE product_id=${product_id}`);
   }
 
+  static updateProduct(product_id, name, price) {
+    return DB.execute(
+      "UPDATE products SET name=?, price=? WHERE product_id=?",
+      [name, price, product_id]
+    );
+  }
+
   static deleteProduct(product_id) {
     return DB.execute(`DELETE FROM products WHERE product_id=${product_id}`);
   }
